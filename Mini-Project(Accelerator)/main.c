@@ -66,8 +66,8 @@ void conv_1pix(int start_pix){      // 결과 이미지 1 pixel에 대한 conv �
     int k; int m; short tmp;
     for(k=0;k<3;k++){
         for(m=0;m<3;m++){
-           tmp += (mask[3 * k + m] * \                  // mask와 image 간의 element wise 곱셈 후 전체 합
-                padded_image[3 * k + m  + start_pix]);
+           tmp += (mask[3 * k + m] * \
+		   	padded_image[3 * k + m  + start_pix]);                  // mask와 image 간의 element wise 곱셈 후 전체 합
         }
     }
 
@@ -143,13 +143,13 @@ int main(void){
         for(i=0;i<i_h;i++){
                 for(j=0;j<i_w;j++){
                     img_load(j+i_w*i);			// img load
-                    output_image_acc[j+i_w*i] = fast_conv(j+i_w*i);	// 연산 결과를 read 후 저장.
+                    output_image[j+i_w*i] = fast_conv();	// 연산 결과를 read 후 저장.
                 }
         }
         /////////HW 기반 결과 display
         for(i=100;i<220;i++){
                 for(j=100;j<220;j++){
-                        plot_pixel(j-50, i, output_image_acc[256*(256-i) + j]);	// 연산 결과 display
+                        plot_pixel(j-50, i, output_image[256*(256-i) + j]);	// 연산 결과 display
                 }
         }
 
@@ -185,7 +185,7 @@ gettimeofday(&start1, NULL);
 
         //clear_screen();
         munmap(lw_virtual, LW_BRIDGE_BASE);
-        munmap(onchip_virtual, pixel_buffer_start);
+        munmap(pixel_buf_virtual, pixel_buffer_start);
         close(fd);
 
         return 0;
